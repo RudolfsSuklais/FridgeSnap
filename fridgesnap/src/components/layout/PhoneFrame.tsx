@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
+import { StatusBar } from './StatusBar'
+import { DynamicIsland } from './DynamicIsland'
 
 interface PhoneFrameProps {
   children: ReactNode
@@ -18,7 +20,13 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
 
   if (isMobile) {
     return (
-      <div className="relative h-[100dvh] w-full overflow-hidden bg-black">
+      <div
+        className="relative h-[100dvh] w-full overflow-hidden bg-black"
+        style={{
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+        }}
+      >
         {children}
       </div>
     )
@@ -40,6 +48,8 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
         <div className="relative h-[812px] w-[375px] rounded-[3rem] bg-black p-2 shadow-phone">
           <div className="relative h-full w-full overflow-hidden rounded-[2.5rem] bg-neutral-50">
             {children}
+            <StatusBar tone="dark" />
+            <DynamicIsland />
           </div>
         </div>
       </div>

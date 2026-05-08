@@ -8,8 +8,6 @@ import {
 } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { PhoneFrame } from './components/layout/PhoneFrame'
-import { StatusBar } from './components/layout/StatusBar'
-import { DynamicIsland } from './components/layout/DynamicIsland'
 import { ScanProvider } from './contexts/ScanContext'
 import { Onboarding } from './screens/Onboarding'
 import { OnboardingPreferences } from './screens/OnboardingPreferences'
@@ -71,8 +69,6 @@ export default function App() {
       <ScanProvider>
         <PhoneFrame>
           <AnimatedRoutes />
-          <StatusBar tone="dark" />
-          <DynamicIsland />
         </PhoneFrame>
       </ScanProvider>
     </BrowserRouter>
