@@ -7,6 +7,8 @@ export function Splash() {
   const [show, setShow] = useState(true)
 
   useEffect(() => {
+    void import('./Onboarding')
+
     const exitTimer = setTimeout(() => setShow(false), 1400)
     const navTimer = setTimeout(() => {
       navigate('/onboarding', { replace: true })

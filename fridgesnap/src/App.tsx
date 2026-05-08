@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { Suspense, lazy, type ReactNode } from 'react'
 import {
   BrowserRouter,
   Navigate,
@@ -9,20 +9,35 @@ import {
 import { AnimatePresence, motion } from 'framer-motion'
 import { PhoneFrame } from './components/layout/PhoneFrame'
 import { ScanProvider } from './contexts/ScanContext'
-import { Onboarding } from './screens/Onboarding'
-import { OnboardingPreferences } from './screens/OnboardingPreferences'
 import { Splash } from './screens/Splash'
-import { Home } from './screens/Home'
-import { Saved } from './screens/Saved'
-import { Profile } from './screens/Profile'
-import { ScanFridge } from './screens/ScanFridge'
-import { ScanPantry } from './screens/ScanPantry'
-import { ScanProcessing } from './screens/ScanProcessing'
-import { MealTimeSelector } from './screens/MealTimeSelector'
-import { Results } from './screens/Results'
-import { RecipeDetail } from './screens/RecipeDetail'
-import { Paywall } from './screens/Paywall'
-import { Settings } from './screens/Settings'
+
+const Onboarding = lazy(() =>
+  import('./screens/Onboarding').then((m) => ({ default: m.Onboarding }))
+)
+const OnboardingPreferences = lazy(() =>
+  import('./screens/OnboardingPreferences').then((m) => ({ default: m.OnboardingPreferences }))
+)
+const Home = lazy(() => import('./screens/Home').then((m) => ({ default: m.Home })))
+const Saved = lazy(() => import('./screens/Saved').then((m) => ({ default: m.Saved })))
+const Profile = lazy(() => import('./screens/Profile').then((m) => ({ default: m.Profile })))
+const ScanFridge = lazy(() =>
+  import('./screens/ScanFridge').then((m) => ({ default: m.ScanFridge }))
+)
+const ScanPantry = lazy(() =>
+  import('./screens/ScanPantry').then((m) => ({ default: m.ScanPantry }))
+)
+const ScanProcessing = lazy(() =>
+  import('./screens/ScanProcessing').then((m) => ({ default: m.ScanProcessing }))
+)
+const MealTimeSelector = lazy(() =>
+  import('./screens/MealTimeSelector').then((m) => ({ default: m.MealTimeSelector }))
+)
+const Results = lazy(() => import('./screens/Results').then((m) => ({ default: m.Results })))
+const RecipeDetail = lazy(() =>
+  import('./screens/RecipeDetail').then((m) => ({ default: m.RecipeDetail }))
+)
+const Paywall = lazy(() => import('./screens/Paywall').then((m) => ({ default: m.Paywall })))
+const Settings = lazy(() => import('./screens/Settings').then((m) => ({ default: m.Settings })))
 
 function PageTransition({ children }: { children: ReactNode }) {
   return (
@@ -38,27 +53,38 @@ function PageTransition({ children }: { children: ReactNode }) {
   )
 }
 
+function ChunkFallback() {
+  return (
+    <div
+      className="absolute inset-0"
+      style={{ background: 'linear-gradient(180deg, #0F1B2D 0%, #0B0C10 100%)' }}
+    />
+  )
+}
+
 function AnimatedRoutes() {
   const location = useLocation()
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Splash />} />
-        <Route path="/onboarding" element={<PageTransition><Onboarding /></PageTransition>} />
-        <Route path="/onboarding/preferences" element={<PageTransition><OnboardingPreferences /></PageTransition>} />
-        <Route path="/home" element={<PageTransition><Home /></PageTransition>} />
-        <Route path="/saved" element={<PageTransition><Saved /></PageTransition>} />
-        <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
-        <Route path="/settings" element={<PageTransition><Settings /></PageTransition>} />
-        <Route path="/scan/fridge" element={<PageTransition><ScanFridge /></PageTransition>} />
-        <Route path="/scan/pantry" element={<PageTransition><ScanPantry /></PageTransition>} />
-        <Route path="/scan/processing" element={<PageTransition><ScanProcessing /></PageTransition>} />
-        <Route path="/scan/meal-time" element={<PageTransition><MealTimeSelector /></PageTransition>} />
-        <Route path="/results" element={<PageTransition><Results /></PageTransition>} />
-        <Route path="/recipe/:id" element={<PageTransition><RecipeDetail /></PageTransition>} />
-        <Route path="/paywall" element={<Paywall />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Suspense fallback={<ChunkFallback />}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Splash />} />
+          <Route path="/onboarding" element={<PageTransition><Onboarding /></PageTransition>} />
+          <Route path="/onboarding/preferences" element={<PageTransition><OnboardingPreferences /></PageTransition>} />
+          <Route path="/home" element={<PageTransition><Home /></PageTransition>} />
+          <Route path="/saved" element={<PageTransition><Saved /></PageTransition>} />
+          <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
+          <Route path="/settings" element={<PageTransition><Settings /></PageTransition>} />
+          <Route path="/scan/fridge" element={<PageTransition><ScanFridge /></PageTransition>} />
+          <Route path="/scan/pantry" element={<PageTransition><ScanPantry /></PageTransition>} />
+          <Route path="/scan/processing" element={<PageTransition><ScanProcessing /></PageTransition>} />
+          <Route path="/scan/meal-time" element={<PageTransition><MealTimeSelector /></PageTransition>} />
+          <Route path="/results" element={<PageTransition><Results /></PageTransition>} />
+          <Route path="/recipe/:id" element={<PageTransition><RecipeDetail /></PageTransition>} />
+          <Route path="/paywall" element={<Paywall />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   )
 }
