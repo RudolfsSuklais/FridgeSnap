@@ -30,11 +30,24 @@
   button {
     -webkit-tap-highlight-color: transparent;
     user-select: none;
+    touch-action: manipulation;
+  }
+
+  a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   img {
     user-select: none;
     -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
   }
 }
 
