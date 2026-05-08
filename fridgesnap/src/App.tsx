@@ -12,6 +12,7 @@ import { StatusBar } from './components/layout/StatusBar'
 import { DynamicIsland } from './components/layout/DynamicIsland'
 import { ScanProvider } from './contexts/ScanContext'
 import { Onboarding } from './screens/Onboarding'
+import { OnboardingPreferences } from './screens/OnboardingPreferences'
 import { Splash } from './screens/Splash'
 import { Home } from './screens/Home'
 import { Saved } from './screens/Saved'
@@ -46,6 +47,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Splash />} />
         <Route path="/onboarding" element={<PageTransition><Onboarding /></PageTransition>} />
+        <Route path="/onboarding/preferences" element={<PageTransition><OnboardingPreferences /></PageTransition>} />
         <Route path="/home" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/saved" element={<PageTransition><Saved /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />

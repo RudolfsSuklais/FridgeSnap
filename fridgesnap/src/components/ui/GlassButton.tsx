@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 
-type Variant = 'primary' | 'secondary' | 'ghost'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'white-glass'
 type Size = 'sm' | 'md' | 'lg'
 
 interface GlassButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
@@ -20,6 +20,8 @@ const VARIANT: Record<Variant, string> = {
     'bg-white/65 text-ink-900 border-white/40 backdrop-blur-xl backdrop-saturate-180 shadow-glass-sm',
   ghost:
     'bg-white/15 text-white border-white/20 backdrop-blur-xl backdrop-saturate-180',
+  'white-glass':
+    'bg-white/90 text-ink-900 border-white/60 backdrop-blur-xl backdrop-saturate-180 shadow-glass-sm hover:bg-white',
 }
 
 const SIZE: Record<Size, string> = {

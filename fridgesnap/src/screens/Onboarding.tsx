@@ -79,7 +79,7 @@ export function Onboarding() {
 
   const goNext = () => {
     if (index < last) setIndex(index + 1)
-    else navigate('/home')
+    else navigate('/onboarding/preferences')
   }
 
   return (
