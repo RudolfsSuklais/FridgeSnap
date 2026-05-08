@@ -9,6 +9,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion'
 import { PhoneFrame } from './components/layout/PhoneFrame'
 import { ScanProvider } from './contexts/ScanContext'
+import { CookingProvider } from './contexts/CookingContext'
 import { Splash } from './screens/Splash'
 
 const Onboarding = lazy(() =>
@@ -38,6 +39,9 @@ const RecipeDetail = lazy(() =>
 )
 const Paywall = lazy(() => import('./screens/Paywall').then((m) => ({ default: m.Paywall })))
 const Settings = lazy(() => import('./screens/Settings').then((m) => ({ default: m.Settings })))
+const CookingMode = lazy(() =>
+  import('./screens/CookingMode').then((m) => ({ default: m.CookingMode }))
+)
 
 function PageTransition({ children }: { children: ReactNode }) {
   return (
@@ -81,6 +85,7 @@ function AnimatedRoutes() {
           <Route path="/scan/meal-time" element={<PageTransition><MealTimeSelector /></PageTransition>} />
           <Route path="/results" element={<PageTransition><Results /></PageTransition>} />
           <Route path="/recipe/:id" element={<PageTransition><RecipeDetail /></PageTransition>} />
+          <Route path="/recipe/:id/cook" element={<CookingMode />} />
           <Route path="/paywall" element={<Paywall />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -93,9 +98,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScanProvider>
-        <PhoneFrame>
-          <AnimatedRoutes />
-        </PhoneFrame>
+        <CookingProvider>
+          <PhoneFrame>
+            <AnimatedRoutes />
+          </PhoneFrame>
+        </CookingProvider>
       </ScanProvider>
     </BrowserRouter>
   )

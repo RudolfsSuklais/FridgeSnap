@@ -331,7 +331,7 @@ function RecipeDetailContent({ recipe }: RecipeDetailContentProps) {
             variant="primary"
             size="md"
             fullWidth
-            onClick={() => window.alert('Demo: cooking mode kicking off.')}
+            onClick={() => navigate(`/recipe/${recipe.id}/cook`)}
             leadingIcon={<Play className="h-4 w-4" strokeWidth={2.25} />}
           >
             Start cooking
