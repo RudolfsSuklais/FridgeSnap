@@ -12,12 +12,11 @@ import { GradientBackground } from '../components/layout/GradientBackground'
 import { GlassButton } from '../components/ui/GlassButton'
 import { AppNav } from '../components/layout/AppNav'
 import { recipes } from '../data/mockData'
+import { useScan } from '../contexts/ScanContext'
 
 const RECENT = recipes.slice(0, 5)
 
 const SAVED_COUNT = 12
-const SCANS_TOTAL = 8
-const SCANS_USED = 3
 
 function getGreeting(now: Date = new Date()): string {
   const h = now.getHours()
@@ -28,6 +27,8 @@ function getGreeting(now: Date = new Date()): string {
 
 export function Home() {
   const navigate = useNavigate()
+  const { isPro, scansUsed, scanLimit, scansRemaining } = useScan()
+  const isLocked = !isPro && scansRemaining === 0
 
   return (
     <div className="relative h-full w-full overflow-hidden">
@@ -111,10 +112,16 @@ export function Home() {
                 <GlassButton
                   variant="white-glass"
                   size="md"
-                  onClick={() => navigate('/scan/fridge')}
-                  trailingIcon={<ArrowRight className="h-4 w-4" />}
+                  onClick={() => navigate(isLocked ? '/paywall' : '/scan/fridge')}
+                  trailingIcon={
+                    isLocked ? (
+                      <Crown className="h-4 w-4" />
+                    ) : (
+                      <ArrowRight className="h-4 w-4" />
+                    )
+                  }
                 >
-                  Scan now
+                  {isLocked ? 'Get Pro to keep scanning' : 'Scan now'}
                 </GlassButton>
               </div>
             </div>
@@ -136,10 +143,11 @@ export function Home() {
           />
           <StatPill
             icon={<Sparkles className="h-3.5 w-3.5" strokeWidth={2.5} />}
-            value={`${SCANS_USED}/${SCANS_TOTAL}`}
-            label="scans used"
+            value={isPro ? '∞' : `${scansUsed}/${scanLimit}`}
+            label={isPro ? 'pro plan' : 'scans used'}
             tone="scans"
-            progress={SCANS_USED / SCANS_TOTAL}
+            progress={isPro ? undefined : scansUsed / scanLimit}
+            onClick={isLocked ? () => navigate('/paywall') : undefined}
           />
           <StatPill
             icon={<Crown className="h-3.5 w-3.5" strokeWidth={2.5} />}
