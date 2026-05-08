@@ -372,8 +372,10 @@ function PlanCard({
         tone="dark"
         blur="md"
         className={[
-          'flex h-full flex-col items-center justify-center px-3 py-4 text-center',
-          popular ? 'border-white/25 bg-white/15' : 'border-white/15 bg-white/8',
+          'flex h-full flex-col items-center justify-center px-3 text-center',
+          popular
+            ? 'border-white/25 bg-white/15 pb-4 pt-6'
+            : 'border-white/15 bg-white/8 py-4',
         ].join(' ')}
       >
         <div className="text-[11px] font-semibold uppercase tracking-wider text-white/55">

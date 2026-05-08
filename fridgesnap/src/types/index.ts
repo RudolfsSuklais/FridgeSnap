@@ -68,3 +68,32 @@ export interface ScannedItem {
 }
 
 export type GradientVariant = 'sunset' | 'ocean' | 'mint' | 'lavender'
+
+export interface ActiveTimer {
+  id: string
+  recipeId: string
+  stepIdx: number
+  label: string
+  startedAt: number
+  endsAt: number
+  durationMinutes: number
+}
+
+export type Rating = 1 | 2 | 3 | 4 | 5
+
+export interface CookedEntry {
+  id: string
+  recipeId: string
+  recipeTitle: string
+  /** Base64 data URL — JPEG, max 1080 px long edge, quality 0.85. */
+  photoDataURL: string
+  rating: Rating
+  note?: string
+  /** ISO 8601 string. */
+  cookedAt: string
+}
+
+export interface ParsedTimerHint {
+  minutes: number
+  label: string
+}
